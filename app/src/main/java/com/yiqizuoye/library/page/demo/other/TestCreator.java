@@ -7,10 +7,10 @@ import com.yiqizuoye.library.page.annotation.PageDataTransform;
 import com.yiqizuoye.library.page.api.ActionData;
 import com.yiqizuoye.library.page.api.BasePage;
 import com.yiqizuoye.library.page.api.BasePresenter;
-import com.yiqizuoye.library.page.api.PageAction;
+import com.yiqizuoye.library.page.api.BaseAction;
 import com.yiqizuoye.library.page.api.PageCreator;
 import com.yiqizuoye.library.page.api.PageInterceptor;
-import com.yiqizuoye.library.page.api.PageRule;
+import com.yiqizuoye.library.page.api.PageRuleData;
 import com.yiqizuoye.library.page.api.PageData;
 import com.yiqizuoye.library.page.api.PageParent;
 import com.yiqizuoye.library.page.demo.page.TestPage;
@@ -29,25 +29,25 @@ public class TestCreator implements PageCreator {
     @Override
     public List<PageData> createPageData() {
         ArrayList<PageData> list = new ArrayList<>();
-        PageRule pageRule = new PageRule();
-        pageRule.key = "key";
-        pageRule.pageClass = TestPage.class.getName();
-        pageRule.type = new int[]{1};
-        pageRule.dataFormatClass = String.class.getName();
-        pageRule.presenterClass = TestPresenter.class.getName();
-        pageRule.interceptors = new String[]{TestInterceptor.class.getName()};
-        PageData pageData = new PageData(pageRule, new PageParent(android.R.id.content, PageAnnotationConstant.DEFAULT_INDEX));
+        PageRuleData pageRuleData = new PageRuleData();
+        pageRuleData.key = "key";
+        pageRuleData.pageClass = TestPage.class.getName();
+        pageRuleData.type = new int[]{1};
+        pageRuleData.dataFormatClass = String.class.getName();
+        pageRuleData.presenterClass = TestPresenter.class.getName();
+        pageRuleData.interceptors = new String[]{TestInterceptor.class.getName()};
+        PageData pageData = new PageData(pageRuleData, new PageParent(android.R.id.content, PageAnnotationConstant.DEFAULT_INDEX));
         list.add(pageData);
 
 
-        pageRule = new PageRule();
-        pageRule.key = "key2";
-        pageRule.pageClass = TestPage2.class.getName();
-        pageRule.type = new int[]{1};
-        pageRule.dataFormatClass = TestBean.class.getName();
-        pageRule.presenterClass = TestPresenter.class.getName();
-        pageRule.interceptors = new String[]{TestInterceptor.class.getName()};
-        pageData = new PageData(pageRule, new PageParent(android.R.id.content, PageAnnotationConstant.DEFAULT_INDEX));
+        pageRuleData = new PageRuleData();
+        pageRuleData.key = "key2";
+        pageRuleData.pageClass = TestPage2.class.getName();
+        pageRuleData.type = new int[]{1};
+        pageRuleData.dataFormatClass = TestBean.class.getName();
+        pageRuleData.presenterClass = TestPresenter.class.getName();
+        pageRuleData.interceptors = new String[]{TestInterceptor.class.getName()};
+        pageData = new PageData(pageRuleData, new PageParent(android.R.id.content, PageAnnotationConstant.DEFAULT_INDEX));
         list.add(pageData);
         return list;
     }
@@ -97,7 +97,7 @@ public class TestCreator implements PageCreator {
 
     @Nullable
     @Override
-    public PageAction createAction(String clazzName) {
+    public BaseAction createAction(String clazzName) {
         return null;
     }
 }

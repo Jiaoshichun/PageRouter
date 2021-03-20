@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * Date: 2021/3/17
  * Description:
  * PageActivity基类
+ * 使用page路由的Activity需要继承该类。或者将下面的两块代码放到自己Activity中
  */
 public abstract class PageActivity extends AppCompatActivity {
 

@@ -26,7 +26,7 @@ data class TransformBean(
 /**
  * 队列数据
  */
-class PageQueue {
+class PageQueueData {
     constructor()
     constructor(id: Int, priority: Int) {
         isQueue = true
@@ -54,29 +54,29 @@ class PageQueue {
 /**
  * 页面数据
  */
-class PageData(rule: PageRule, parent: PageParent) {
+class PageData(ruleData: PageRuleData, parent: PageParent) {
     //路由key
-    val key: String = rule.key
+    val key: String = ruleData.key
 
     //当前的类型，通过typeFactory key和type确定一个page
 
 
     //数据转换器，将原始数据转换为页面需要的数据
-    private val transformBeans = rule.transformBeans
+    private val transformBeans = ruleData.transformBeans
 
-    val types: IntArray = rule.type
+    val types: IntArray = ruleData.type
 
     //拦截器
-    val interceptors: Array<String> = rule.interceptors
+    val interceptors: Array<String> = ruleData.interceptors
 
     //页面需要的数据格式  的className
-    val dataFormat: String = rule.dataFormatClass
+    val dataFormat: String = ruleData.dataFormatClass
 
     //presenter的类型 的className
-    val presenterClass = rule.presenterClass
+    val presenterClass = ruleData.presenterClass
 
     //page页面类型 的className
-    val pageClass = rule.pageClass
+    val pageClass = ruleData.pageClass
 
     //被添加的父View id
     val parentId = parent.parentId
@@ -85,7 +85,7 @@ class PageData(rule: PageRule, parent: PageParent) {
     val index = parent.index
 
     //队列信息
-    val queue = rule.queue
+    val queue = ruleData.queue
 
     //格式格式类的class名字，key为from value为to
     val transformsClass = mutableMapOf<String, String>()
@@ -110,27 +110,27 @@ class PageData(rule: PageRule, parent: PageParent) {
 /**
  * 事件路由数据
  */
-class ActionData(rule: ActionRule, val thread: ActionThread.Thread) {
+class ActionData(ruleData: ActionRuleData, val thread: ActionThread.Thread) {
     //路由key
-    val key: String = rule.key
+    val key: String = ruleData.key
 
     //当前的类型，通过typeFactory key和type确定一个page
 
     //数据转换器，将原始数据转换为页面需要的数据
-    private val transformBeans = rule.transformBeans
+    private val transformBeans = ruleData.transformBeans
 
-    val types: IntArray = rule.type
+    val types: IntArray = ruleData.type
 
     //页面需要的数据格式  的className
-    val dataFormat: String = rule.dataFormatClass
+    val dataFormat: String = ruleData.dataFormatClass
 
 
     //page页面类型 的className
-    val actionClass = rule.actionClass
+    val actionClass = ruleData.actionClass
 
 
     //队列信息
-    val queue = rule.queue
+    val queue = ruleData.queue
 
 
     //格式格式类的class名字，key为from value为to

@@ -26,9 +26,12 @@ object PageConfig {
 
     fun init(activity: AppCompatActivity, creator: PageCreator) {
         PageManager.clearPage()
+        EventQueueManager.clear()
+
         this.activity?.lifecycle?.removeObserver(lifecycleObserver)
         this.pageCreator = creator
         this.activity = activity
+        //获取页面路由map
         val create = creator.createPageData()
         allPageData.clear()
         allPageData.addAll(create)
@@ -38,6 +41,7 @@ object PageConfig {
             }
 
         }
+        //获取事件路由map
         val actionData = creator.createActionData()
         allActionData.clear()
         allActionData.addAll(actionData)
@@ -49,11 +53,12 @@ object PageConfig {
         }
         activity.lifecycle.addObserver(lifecycleObserver)
     }
-
+    //页面销毁时，清除缓存
     private val lifecycleObserver: LifecycleObserver = object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun onDestroy() {
             PageManager.clearPage()
+            EventQueueManager.clear()
             activity?.lifecycle?.removeObserver(this)
 
         }
@@ -80,9 +85,7 @@ object PageConfig {
             data: Any,
             needDataClass: Class<Any>
         ) {
-
         }
-
         override fun onSuccess(pageData: PageData, data: Any, needDataClass: Class<Any>) {
         }
 

@@ -12,13 +12,15 @@ import java.util.Map;
  * Date: 2021/3/19
  * Description:
  * 页面队列处理
+ * 默认队列关闭，只有配置{@link com.yiqizuoye.library.page.annotation.PageQueue}是才开启
+ * 相同队列，如果上一个未完成，则等待。 等待队列根据优先级排队
  */
 class PageQueueManager {
     private static class RouterQueueData {
-        public PageQueue queue;
+        public PageQueueData queue;
         public RouterData routerData;
 
-        public RouterQueueData(PageQueue queue, RouterData routerData) {
+        public RouterQueueData(PageQueueData queue, RouterData routerData) {
             this.queue = queue;
             this.routerData = routerData;
         }
@@ -36,9 +38,9 @@ class PageQueueManager {
     };
 
     /**
-     * 处理页面跳转
+     * 处理页面跳转，准备处理页面数据时，调用该方法
      */
-    public synchronized static boolean processPageData(PageQueue queue, RouterData routerData) {
+    public synchronized static boolean processPageData(PageQueueData queue, RouterData routerData) {
         //如果当前的页面不是队列页面 或者被执行过
         if (!queue.isQueue() || routerData.isExecuted) return false;
 
@@ -68,7 +70,7 @@ class PageQueueManager {
      */
     public synchronized static void pageDataFinish(PageData pageData) {
         //不是队列界面 不做处理
-        PageQueue queue = pageData.getQueue();
+        PageQueueData queue = pageData.getQueue();
         if (!queue.isQueue()) return;
 
         List<RouterQueueData> dataList = queueWaitPageData.get(queue.getId());

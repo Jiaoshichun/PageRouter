@@ -10,6 +10,7 @@ import com.yiqizuoye.library.page.annotation.PageDataTransform;
  * Author: jiao
  * Date: 2021/3/16
  * Description:
+ * 路由跳转类
  */
 public class PageRouter {
     private RouterData routerData;
@@ -21,7 +22,7 @@ public class PageRouter {
     }
 
     /**
-     * 页面
+     * 页面路由
      */
     public static PageRouter create(Activity context, String key, Object data) {
         PageLauncher launcher = new PageLauncher();
@@ -74,10 +75,9 @@ public class PageRouter {
 
     /**
      * 开启界面操作
-     *
      */
     public int open() {
-        return launcher.start( routerData);
+        return launcher.start(routerData);
     }
 
 }

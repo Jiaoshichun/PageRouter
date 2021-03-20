@@ -11,6 +11,7 @@ import java.util.Map;
  * Author: jiao
  * Date: 2021/3/19
  * Description:
+ * 页面路由启动类
  */
 public class PageLauncher implements Launcher {
     @Override
@@ -26,7 +27,7 @@ public class PageLauncher implements Launcher {
             return PageCode.ERROR_NO_FOUND_TYPE;
         }
         //交于队列管理器处理， 如果返回true 表示相同队列的view正在展示，暂时不能启动view
-        if (PageQueueManager.processPageData( pageData.getQueue(), routerData)) {
+        if (PageQueueManager.processPageData(pageData.getQueue(), routerData)) {
             return PageCode.QUEUE_WAITING;
         }
 

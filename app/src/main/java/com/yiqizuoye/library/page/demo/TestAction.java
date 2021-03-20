@@ -1,12 +1,11 @@
 package com.yiqizuoye.library.page.demo;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.yiqizuoye.library.page.annotation.ActionRule;
 import com.yiqizuoye.library.page.annotation.ActionThread;
 import com.yiqizuoye.library.page.annotation.PageQueue;
-import com.yiqizuoye.library.page.api.PageAction;
+import com.yiqizuoye.library.page.api.BaseAction;
 
 /**
  * Author: jiao
@@ -15,7 +14,7 @@ import com.yiqizuoye.library.page.api.PageAction;
  */
 @PageQueue(id = 11)
 @ActionRule(value = "key", type = 1)
-public class TestAction implements PageAction<String> {
+public class TestAction implements BaseAction<String> {
     private final static String TAG = "TestAction";
 
     @ActionThread(ActionThread.Thread.workThread)

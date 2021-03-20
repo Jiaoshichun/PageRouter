@@ -14,6 +14,9 @@ internal object PageManagerImpl {
     private val pageStack = mutableListOf<BasePage<*, *>>()
     private val pageResultCallBacks = mutableMapOf<Int, PageResultCallBack?>()
 
+    /**
+     * 更加key获取Page
+     */
     fun <T : BasePage<*, *>> getPage(key: String): T? {
         val type = PageConfig.typeFactory.getType()
         val find = pageStack.find { page -> page.mPageData.key == key } ?: return null

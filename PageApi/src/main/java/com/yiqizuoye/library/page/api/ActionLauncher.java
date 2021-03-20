@@ -60,12 +60,12 @@ public class ActionLauncher implements Launcher {
 
 
         //创建Page
-        final PageAction pageAction = pageCreator.createAction(actionData.getActionClass());
+        final BaseAction baseAction = pageCreator.createAction(actionData.getActionClass());
         final Object finalRealData = realData;
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                pageAction.handleEvent(finalRealData);
+                baseAction.handleEvent(finalRealData);
                 EventQueueManager.pageDataFinish(actionData);
             }
         };

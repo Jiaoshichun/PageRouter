@@ -13,6 +13,10 @@ import java.util.List;
  * 页面创建器，通过注解处理器自动生成实现类
  */
 public interface PageCreator {
+    /**
+     * 扫描{@link com.yiqizuoye.library.page.annotation.PageRule}
+     * @return
+     */
     List<PageData> createPageData();
 
     List<ActionData> createActionData();
@@ -30,5 +34,5 @@ public interface PageCreator {
     BasePage createPage(String clazzName);
 
     @Nullable
-    PageAction createAction(String clazzName);
+    BaseAction createAction(String clazzName);
 }

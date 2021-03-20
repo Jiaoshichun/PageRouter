@@ -14,8 +14,14 @@ import com.yiqizuoye.library.page.annotation.PageDataTransform;
  * 跳转数据
  */
 public class RouterData {
-    private Activity activity;
+    private final Activity activity;
 
+    //当前的type
+    private final int type;
+    //路由key
+    private final String key;
+    //数据
+    private final Object data;
     public RouterData(Activity activity, int type, String key, Object data) {
         this.activity = activity;
         this.type = type;
@@ -25,9 +31,6 @@ public class RouterData {
 
     //是否被执行过，避免队列消息重复执行
     public boolean isExecuted;
-    private final int type;
-    private final String key;
-    private final Object data;
     //页面结果回调 在页面调用setResult时会回调该方法
     @Nullable
     private PageResultCallBack pageResultCallBack;

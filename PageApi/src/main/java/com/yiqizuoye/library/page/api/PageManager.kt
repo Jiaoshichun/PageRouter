@@ -7,7 +7,9 @@ package com.yiqizuoye.library.page.api
  * 页面管理器  同时分发回调消息
  */
 object PageManager {
-
+    /**
+     * 根据key获取当前正在打开的Page，可能为空
+     */
     @JvmStatic
     fun <T : BasePage<*, *>> getPage(key: String): T? {
         return PageManagerImpl.getPage(key)
@@ -31,11 +33,15 @@ object PageManager {
         PageManagerImpl.onTypeChange()
     }
 
+    /**
+     * 清除page。
+     * 同时清除，page队列
+     */
     @JvmStatic
     fun clearPage() {
         PageManagerImpl.clearPage()
         PageQueueManager.clear()
-        EventQueueManager.clear()
+
     }
 
     /**

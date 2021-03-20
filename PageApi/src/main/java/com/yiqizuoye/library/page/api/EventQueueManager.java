@@ -15,10 +15,10 @@ import java.util.Map;
  */
 class EventQueueManager {
     private static class RouterQueueData {
-        public PageQueue queue;
+        public PageQueueData queue;
         public RouterData routerData;
 
-        public RouterQueueData(PageQueue queue, RouterData routerData) {
+        public RouterQueueData(PageQueueData queue, RouterData routerData) {
             this.queue = queue;
             this.routerData = routerData;
         }
@@ -38,7 +38,7 @@ class EventQueueManager {
     /**
      * 处理页面跳转
      */
-    public synchronized static boolean processPageData(PageQueue queue, RouterData routerData) {
+    public synchronized static boolean processPageData(PageQueueData queue, RouterData routerData) {
         //如果当前的页面不是队列页面 或者被执行过
         if (!queue.isQueue() || routerData.isExecuted) return false;
 
@@ -68,7 +68,7 @@ class EventQueueManager {
      */
     public synchronized static void pageDataFinish(ActionData pageData) {
         //不是队列界面 不做处理
-        PageQueue queue = pageData.getQueue();
+        PageQueueData queue = pageData.getQueue();
         if (!queue.isQueue()) return;
 
         List<RouterQueueData> dataList = queueWaitActionData.get(queue.getId());
