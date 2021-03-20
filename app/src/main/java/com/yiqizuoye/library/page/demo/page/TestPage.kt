@@ -36,13 +36,16 @@ class TestPage : BasePage<TestBean, TestPresenter>(), TestView {
         setContentView(R.layout.page_test)
         val txt = findViewById<TextView>(R.id.txt)
         txt.setOnClickListener {
-            val open = PageRouter.create("key2", "TEST2新来的").setResultCallBack { result, data ->
+            val open = PageRouter.create(mContext,"key2", "TEST2新来的").setResultCallBack { result, data ->
                 Log.d(TAG, "setResultCallBack  result:$result  data:$data")
-            }.open(mContext)
+            }.open()
             Log.d(TAG, "open Result:$open")
 //            关闭当前界面
 //            finish()
             mPresenter.toLogin()
+            val open1 = PageRouter.createAction("key", "事件咯").open()
+            Log.d(TAG, "openAction Result:$open1")
+
         }
 
     }

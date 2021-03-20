@@ -31,7 +31,7 @@ class DemoActivity : AppCompatActivity() {
         })
         findViewById<Button>(R.id.start).setOnClickListener {
 //            for (i in 0..10) {
-                val open = PageRouter.create("key", "开始咯").open(this)
+            val open = PageRouter.create(this, "key", "开始咯").open()
 //                Log.d(TAG, "open Result:$open")
 //            }
 //            val open = PageRouter.create("key2", "222222").open(this)

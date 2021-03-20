@@ -1,4 +1,4 @@
-package com.yiqizuoye.library.pagec.comiler;
+package com.yiqizuoye.library.page.compile;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;

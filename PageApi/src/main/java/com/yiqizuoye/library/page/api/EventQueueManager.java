@@ -11,9 +11,9 @@ import java.util.Map;
  * Author: jiao
  * Date: 2021/3/19
  * Description:
- * 页面队列处理
+ * 事件队列处理
  */
-class PageQueueManager {
+class EventQueueManager {
     private static class RouterQueueData {
         public PageQueue queue;
         public RouterData routerData;
@@ -25,9 +25,9 @@ class PageQueueManager {
     }
 
     //页面等待队列
-    private final static Map<Integer, List<RouterQueueData>> queueWaitPageData = new HashMap<>();
+    private final static Map<Integer, List<RouterQueueData>> queueWaitActionData = new HashMap<>();
     //正在展示的队列
-    private final static Map<Integer, Boolean> isShowingQueue = new HashMap<>();
+    private final static Map<Integer, Boolean> isProcessQueue = new HashMap<>();
     private final static Comparator<RouterQueueData> comparator = new Comparator<RouterQueueData>() {
         @Override
         public int compare(RouterQueueData o1, RouterQueueData o2) {
@@ -43,18 +43,18 @@ class PageQueueManager {
         if (!queue.isQueue() || routerData.isExecuted) return false;
 
         //如果当前队列没有正在展示的页面 不作处理，保存状态
-        if (isShowingQueue.get(queue.getId()) == null || !isShowingQueue.get(queue.getId())) {
+        if (isProcessQueue.get(queue.getId()) == null || !isProcessQueue.get(queue.getId())) {
             routerData.isExecuted = true;
-            isShowingQueue.put(queue.getId(), true);
+            isProcessQueue.put(queue.getId(), true);
             return false;
         }
 
-        List<RouterQueueData> dataList = queueWaitPageData.get(queue.getId());
+        List<RouterQueueData> dataList = queueWaitActionData.get(queue.getId());
 
         //当前队列有正在展示的界面，保存页面数据
         if (dataList == null) {
             dataList = new ArrayList<>();
-            queueWaitPageData.put(queue.getId(), dataList);
+            queueWaitActionData.put(queue.getId(), dataList);
         }
         dataList.add(new RouterQueueData(queue, routerData));
         //按照优先级排序
@@ -66,21 +66,21 @@ class PageQueueManager {
     /**
      * 页面关闭时，调用该方法
      */
-    public synchronized static void pageDataFinish(PageData pageData) {
+    public synchronized static void pageDataFinish(ActionData pageData) {
         //不是队列界面 不做处理
         PageQueue queue = pageData.getQueue();
         if (!queue.isQueue()) return;
 
-        List<RouterQueueData> dataList = queueWaitPageData.get(queue.getId());
+        List<RouterQueueData> dataList = queueWaitActionData.get(queue.getId());
 
         if (dataList == null || dataList.size() == 0) {
             //如果没有等待队列，将正在展示状态置为false
-            isShowingQueue.put(queue.getId(), false);
+            isProcessQueue.put(queue.getId(), false);
         } else {
             //直接启动下一个page
             RouterQueueData remove = dataList.remove(0);
             remove.routerData.isExecuted = true;
-            new PageLauncher().start(remove.routerData);
+            new ActionLauncher().start(remove.routerData);
         }
     }
 
@@ -88,8 +88,8 @@ class PageQueueManager {
      * 清除队列
      */
     public synchronized static void clear() {
-        queueWaitPageData.clear();
-        isShowingQueue.clear();
+        queueWaitActionData.clear();
+        isProcessQueue.clear();
     }
 
 }

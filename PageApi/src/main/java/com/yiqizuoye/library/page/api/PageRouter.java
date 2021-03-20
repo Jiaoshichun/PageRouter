@@ -1,15 +1,10 @@
 package com.yiqizuoye.library.page.api;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
-
-import androidx.annotation.Nullable;
 
 import com.yiqizuoye.library.page.annotation.PageDataTransform;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Author: jiao
@@ -25,9 +20,21 @@ public class PageRouter {
         this.launcher = launcher;
     }
 
-    public static PageRouter create(String key, Object data) {
+    /**
+     * 页面
+     */
+    public static PageRouter create(Activity context, String key, Object data) {
         PageLauncher launcher = new PageLauncher();
-        RouterData routerData = new RouterData(PageConfig.INSTANCE.getTypeFactory().getType(), key, data);
+        RouterData routerData = new RouterData(context, PageConfig.INSTANCE.getTypeFactory().getType(), key, data);
+        return new PageRouter(routerData, launcher);
+    }
+
+    /**
+     * 事件路由
+     */
+    public static PageRouter createAction(String key, Object data) {
+        ActionLauncher launcher = new ActionLauncher();
+        RouterData routerData = new RouterData(null, PageConfig.INSTANCE.getTypeFactory().getType(), key, data);
         return new PageRouter(routerData, launcher);
     }
 
@@ -68,11 +75,9 @@ public class PageRouter {
     /**
      * 开启界面操作
      *
-     * @param context
-     * @return
      */
-    public int open(final Activity context) {
-        return LauncherManager.start(launcher, context, routerData);
+    public int open() {
+        return launcher.start( routerData);
     }
 
 }

@@ -15,6 +15,8 @@ import java.util.List;
 public interface PageCreator {
     List<PageData> createPageData();
 
+    List<ActionData> createActionData();
+
     @Nullable
     PageDataTransform createTransform(String clazzName);
 
@@ -27,4 +29,6 @@ public interface PageCreator {
     @Nullable
     BasePage createPage(String clazzName);
 
+    @Nullable
+    PageAction createAction(String clazzName);
 }

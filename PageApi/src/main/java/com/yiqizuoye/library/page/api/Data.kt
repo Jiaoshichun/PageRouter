@@ -1,5 +1,7 @@
 package com.yiqizuoye.library.page.api
 
+import com.yiqizuoye.library.page.annotation.ActionThread
+
 
 /**
  * Author: jiao
@@ -104,3 +106,45 @@ class PageData(rule: PageRule, parent: PageParent) {
 
 
 }
+
+/**
+ * 事件路由数据
+ */
+class ActionData(rule: ActionRule, val thread: ActionThread.Thread) {
+    //路由key
+    val key: String = rule.key
+
+    //当前的类型，通过typeFactory key和type确定一个page
+
+    //数据转换器，将原始数据转换为页面需要的数据
+    private val transformBeans = rule.transformBeans
+
+    val types: IntArray = rule.type
+
+    //页面需要的数据格式  的className
+    val dataFormat: String = rule.dataFormatClass
+
+
+    //page页面类型 的className
+    val actionClass = rule.actionClass
+
+
+    //队列信息
+    val queue = rule.queue
+
+
+    //格式格式类的class名字，key为from value为to
+    val transformsClass = mutableMapOf<String, String>()
+
+    init {
+        transformBeans.forEach {
+            if (it.toClassName != dataFormat) {
+                throw RuntimeException("$it  转换出来的格式不是page需要的格式 needFormat:$dataFormat  $it")
+            }
+            transformsClass[it.fromClassName] = it.className
+        }
+    }
+
+
+}
+

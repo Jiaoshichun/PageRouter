@@ -38,9 +38,9 @@ class TestPageType2 : BasePage<TestBean, TestPresenter>(), TestView {
         val txt = findViewById<TextView>(R.id.txt)
         txt.setText(TAG)
         txt.setOnClickListener {
-            val open = PageRouter.create("key2", "TEST2新来的").setResultCallBack { result, data ->
+            val open = PageRouter.create(mContext,"key2", "TEST2新来的").setResultCallBack { result, data ->
                 Log.d(TAG, "setResultCallBack  result:$result  data:$data")
-            }.open(mContext)
+            }.open()
             Log.d(TAG, "open Result:$open")
             mPresenter.toLogin()
         }

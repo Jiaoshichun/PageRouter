@@ -1,12 +1,9 @@
 package com.yiqizuoye.library.page.api
 
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.yiqizuoye.library.page.annotation.PageDataTransform
 
 /**
  * Author: jiao
@@ -15,36 +12,16 @@ import com.yiqizuoye.library.page.annotation.PageDataTransform
  * 全局配置类
  */
 object PageConfig {
-    val MAIN_HANDLER = Handler(Looper.getMainLooper());
 
     //所有的页面数据
     private val allPageData = mutableListOf<PageData>()
     val pageRules = mutableMapOf<String, MutableMap<Int, PageData>>()
+    private val allActionData = mutableListOf<ActionData>()
+    val actionRules = mutableMapOf<String, MutableMap<Int, ActionData>>()
 
     //页面创建器
-    var pageCreator: PageCreator = object : PageCreator {
-        override fun createInterceptor(clazzName: String?): PageInterceptor? {
-            return null
-        }
+    lateinit var pageCreator: PageCreator
 
-        override fun createPage(clazzName: String?): BasePage<*, out BasePresenter<*, *>>? {
-            return null
-        }
-
-        override fun createPageData(): MutableList<PageData>? {
-            return null
-        }
-
-        override fun createTransform(clazzName: String?): PageDataTransform<*, *>? {
-            return null
-        }
-
-        override fun createPresenter(clazzName: String?): BasePresenter<*, out IView<*>>? {
-            return null
-        }
-
-
-    }
     private var activity: AppCompatActivity? = null
 
     fun init(activity: AppCompatActivity, creator: PageCreator) {
@@ -58,6 +35,15 @@ object PageConfig {
         allPageData.forEach {
             it.types.forEach { type ->
                 pageRules.getOrPut(it.key, { mutableMapOf() })[type] = it
+            }
+
+        }
+        val actionData = creator.createActionData()
+        allActionData.clear()
+        allActionData.addAll(actionData)
+        allActionData.forEach {
+            it.types.forEach { type ->
+                actionRules.getOrPut(it.key, { mutableMapOf() })[type] = it
             }
 
         }

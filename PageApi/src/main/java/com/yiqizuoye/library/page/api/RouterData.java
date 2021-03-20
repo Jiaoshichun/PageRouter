@@ -1,5 +1,6 @@
 package com.yiqizuoye.library.page.api;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,7 +14,10 @@ import com.yiqizuoye.library.page.annotation.PageDataTransform;
  * 跳转数据
  */
 public class RouterData {
-    public RouterData(int type, String key, Object data) {
+    private Activity activity;
+
+    public RouterData(Activity activity, int type, String key, Object data) {
+        this.activity = activity;
         this.type = type;
         this.key = key;
         this.data = data;
@@ -83,5 +87,9 @@ public class RouterData {
 
     public void setTransform(@Nullable PageDataTransform transform) {
         this.transform = transform;
+    }
+
+    public Activity getActivity() {
+        return activity;
     }
 }

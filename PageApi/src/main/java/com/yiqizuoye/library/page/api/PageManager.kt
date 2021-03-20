@@ -1,7 +1,5 @@
 package com.yiqizuoye.library.page.api
 
-import androidx.annotation.IdRes
-
 /**
  * Author: jiao
  * Date: 2021/3/16
@@ -37,6 +35,7 @@ object PageManager {
     fun clearPage() {
         PageManagerImpl.clearPage()
         PageQueueManager.clear()
+        EventQueueManager.clear()
     }
 
     /**

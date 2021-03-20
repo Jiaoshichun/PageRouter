@@ -1,13 +1,12 @@
-package com.yiqizuoye.library.pagec.comiler;
+package com.yiqizuoye.library.page.compile.page;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.yiqizuoye.library.page.annotation.PageRule;
+import com.yiqizuoye.library.page.compile.Constants;
+import com.yiqizuoye.library.page.compile.Utils;
 
 import java.util.HashSet;
-
-import javax.lang.model.type.MirroredTypesException;
-import javax.lang.model.type.TypeMirror;
 
 /**
  * Author: jiao
@@ -18,7 +17,7 @@ public class MethodCreatePresenter {
     private static boolean isStart = false;
     private static final HashSet<String> hasAdd=new HashSet<>();
     public static MethodSpec.Builder createMethodBuild() {
-        MethodSpec.Builder methodCreateHRouterRule = MethodSpec.overriding(Utils.getOverrideMethod(Constants.pageCreatorClassName, Constants.METHOD_NAME_CREATE_PRESENTER));
+        MethodSpec.Builder methodCreateHRouterRule = MethodSpec.overriding(Utils.getOverrideMethod(com.yiqizuoye.library.page.compile.Constants.pageCreatorClassName, Constants.METHOD_NAME_CREATE_PRESENTER));
 //        methodCreateHRouterRule.addParameter(String.class,"clazzName");
 
         return methodCreateHRouterRule;

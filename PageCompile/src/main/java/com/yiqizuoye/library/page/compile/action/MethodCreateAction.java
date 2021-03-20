@@ -1,7 +1,10 @@
-package com.yiqizuoye.library.pagec.comiler;
+package com.yiqizuoye.library.page.compile.action;
 
 import com.squareup.javapoet.MethodSpec;
+import com.yiqizuoye.library.page.annotation.ActionRule;
 import com.yiqizuoye.library.page.annotation.PageRule;
+import com.yiqizuoye.library.page.compile.Constants;
+import com.yiqizuoye.library.page.compile.Utils;
 
 import javax.lang.model.element.TypeElement;
 
@@ -10,17 +13,17 @@ import javax.lang.model.element.TypeElement;
  * Date: 2021/3/16
  * Description:  createPage method
  */
-public class MethodCreatePage {
+public class MethodCreateAction {
     private static boolean isStart = false;
 
     public static MethodSpec.Builder createMethodBuild() {
-        MethodSpec.Builder method = MethodSpec.overriding(Utils.getOverrideMethod(Constants.pageCreatorClassName, Constants.METHOD_NAME_CREATE_PAGE));
+        MethodSpec.Builder method = MethodSpec.overriding(Utils.getOverrideMethod(Constants.pageCreatorClassName, Constants.METHOD_NAME_CREATE_ACTION));
 //        methodCreateHRouterRule.addParameter(String.class, "clazzName");
 
         return method;
     }
 
-    public static void addCode(TypeElement type, MethodSpec.Builder method, PageRule rule) {
+    public static void addCode(TypeElement type, MethodSpec.Builder method) {
         if (!isStart) {
             isStart = true;
             method.beginControlFlow("if (arg0.equals($S))", type);

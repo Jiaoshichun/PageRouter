@@ -87,7 +87,7 @@ internal object PageManagerImpl {
         }
         clearPage()
         needOpenPage.forEach {
-            PageRouter.create(it.pageData.key, it.data).setOtherData(it.otherData).open(activity)
+            PageRouter.create(activity, it.pageData.key, it.data).setOtherData(it.otherData).open()
         }
     }
 

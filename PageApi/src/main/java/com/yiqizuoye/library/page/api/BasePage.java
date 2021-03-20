@@ -104,7 +104,7 @@ public abstract class BasePage<DATA, P extends BasePresenter> implements IView<D
         //从页面管理器移除
         PageManagerImpl.INSTANCE.removePage(this);
         //将finish事件通知到 页面队列管理器
-        PageQueueManager.pageDataFinish(mPageData, mContext);
+        PageQueueManager.pageDataFinish(mPageData);
         mView = null;
         mData = null;
     }

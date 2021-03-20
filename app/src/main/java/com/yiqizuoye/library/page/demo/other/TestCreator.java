@@ -4,8 +4,10 @@ import androidx.annotation.Nullable;
 
 import com.yiqizuoye.library.page.annotation.PageAnnotationConstant;
 import com.yiqizuoye.library.page.annotation.PageDataTransform;
+import com.yiqizuoye.library.page.api.ActionData;
 import com.yiqizuoye.library.page.api.BasePage;
 import com.yiqizuoye.library.page.api.BasePresenter;
+import com.yiqizuoye.library.page.api.PageAction;
 import com.yiqizuoye.library.page.api.PageCreator;
 import com.yiqizuoye.library.page.api.PageInterceptor;
 import com.yiqizuoye.library.page.api.PageRule;
@@ -50,6 +52,11 @@ public class TestCreator implements PageCreator {
         return list;
     }
 
+    @Override
+    public List<ActionData> createActionData() {
+        return new ArrayList<>();
+    }
+
     @Nullable
     @Override
     public PageDataTransform createTransform(String clazzName) {
@@ -85,6 +92,12 @@ public class TestCreator implements PageCreator {
         } else if (clazzName.equals(TestPage2.class.getName())) {
             return new TestPage2();
         }
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public PageAction createAction(String clazzName) {
         return null;
     }
 }

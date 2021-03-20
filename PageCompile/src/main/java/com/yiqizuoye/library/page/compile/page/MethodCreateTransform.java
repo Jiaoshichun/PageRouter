@@ -1,7 +1,9 @@
-package com.yiqizuoye.library.pagec.comiler;
+package com.yiqizuoye.library.page.compile.page;
 
 import com.squareup.javapoet.MethodSpec;
 import com.yiqizuoye.library.page.annotation.PageRule;
+import com.yiqizuoye.library.page.compile.Constants;
+import com.yiqizuoye.library.page.compile.Utils;
 
 import java.util.HashSet;
 
@@ -11,25 +13,26 @@ import javax.lang.model.type.TypeMirror;
 /**
  * Author: jiao
  * Date: 2021/3/16
- * Description:  createInterceptor method
+ * Description:  createTransform method
  */
-public class MethodCreateInterceptor {
+public class MethodCreateTransform {
     private static boolean isStart = false;
     private static final HashSet<String> hasAdd = new HashSet<>();
 
     public static MethodSpec.Builder createMethodBuild() {
-        MethodSpec.Builder methodCreateHRouterRule = MethodSpec.overriding(Utils.getOverrideMethod(Constants.pageCreatorClassName, Constants.METHOD_NAME_CREATE_INTERCEPTOR));
+        MethodSpec.Builder methodCreateHRouterRule = MethodSpec.overriding(Utils.getOverrideMethod(Constants.pageCreatorClassName, Constants.METHOD_NAME_CREATE_TRANSFORM));
 //        methodCreateHRouterRule.addParameter(String.class,"clazzName");
 
         return methodCreateHRouterRule;
     }
 
     public static void addCode(MethodSpec.Builder method, PageRule rule) {
-        TypeMirror[] typeMirrors = getInterceptors(rule);
+        TypeMirror[] typeMirrors = getDataTransform(rule);
         if (typeMirrors != null && typeMirrors.length > 0) {
             for (TypeMirror type : typeMirrors) {
                 if (hasAdd.contains(type.toString())) continue;
                 hasAdd.add(type.toString());
+
                 if (!isStart) {
                     isStart = true;
                     method.beginControlFlow("if (arg0.equals($S))", type);
@@ -43,10 +46,10 @@ public class MethodCreateInterceptor {
 
     }
 
-    private static TypeMirror[] getInterceptors(PageRule rule) {
+    private static TypeMirror[] getDataTransform(PageRule rule) {
         if (rule == null) return null;
         try {
-            rule.interceptors();// this should throw
+            rule.transforms();// this should throw
         } catch (MirroredTypesException mte) {
             return mte.getTypeMirrors().toArray(new TypeMirror[0]);
         }

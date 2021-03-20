@@ -1,6 +1,5 @@
 package com.yiqizuoye.library.page.api;
 
-import android.app.Activity;
 import android.text.TextUtils;
 
 import com.yiqizuoye.library.page.annotation.PageDataTransform;
@@ -15,7 +14,7 @@ import java.util.Map;
  */
 public class PageLauncher implements Launcher {
     @Override
-    public int start(final Activity context, final RouterData routerData) {
+    public int start(final RouterData routerData) {
         //根据key 获取以type为key的PageData map集合
         Map<Integer, PageData> dataMap = PageConfig.INSTANCE.getPageRules().get(routerData.getKey());
         if (dataMap == null) {
@@ -27,7 +26,7 @@ public class PageLauncher implements Launcher {
             return PageCode.ERROR_NO_FOUND_TYPE;
         }
         //交于队列管理器处理， 如果返回true 表示相同队列的view正在展示，暂时不能启动view
-        if (PageQueueManager.processPageData(context,pageData.getQueue(),routerData)) {
+        if (PageQueueManager.processPageData( pageData.getQueue(), routerData)) {
             return PageCode.QUEUE_WAITING;
         }
 
@@ -39,24 +38,27 @@ public class PageLauncher implements Launcher {
             //真实的数据格式
             realData = routerData.getData();
             //如果数据格式不正确，并且设置了转换器 ，先进行转换
-            if (!TextUtils.equals(routerData.getData().getClass().getName(), pageData.getDataFormat()) && routerData.getTransform() != null) {
-                realData = routerData.getTransform().transform(routerData.getData());
+            if (!TextUtils.equals(routerData.getData().getClass().getName(), pageData.getDataFormat())) {
+                if (routerData.getTransform() != null) {
+                    realData = routerData.getTransform().transform(routerData.getData());
+                }
+                //如果数据格式不正确，注解配置的有转换器 则进行转换
+                if (!TextUtils.equals(realData.getClass().getName(), pageData.getDataFormat()) && pageData.getTransformsClass().get(routerData.getData().getClass().getName()) != null) {
+                    PageDataTransform transform = pageCreator.createTransform(pageData.getTransformsClass().get(routerData.getData().getClass().getName()));
+                    realData = transform.transform(routerData.getData());
+                }
+                if (!TextUtils.equals(realData.getClass().getName(), pageData.getDataFormat())) {
+                    return PageCode.ERROR_DATA_FORMAT;
+                }
             }
-            //如果数据格式不正确，注解配置的有转换器 则进行转换
-            if (!TextUtils.equals(realData.getClass().getName(), pageData.getDataFormat()) && pageData.getTransformsClass().get(routerData.getData().getClass().getName()) != null) {
-                PageDataTransform transform = pageCreator.createTransform(pageData.getTransformsClass().get(routerData.getData().getClass().getName()));
-                realData = transform.transform(routerData.getData());
-            }
-            if (!TextUtils.equals(realData.getClass().getName(), pageData.getDataFormat())) {
-                return PageCode.ERROR_DATA_FORMAT;
-            }
-            //先走全局拦截器
-            List<PageInterceptor> globalInterceptor = PageConfig.INSTANCE.getAddGlobalInterceptors();
-            if (globalInterceptor != null && globalInterceptor.size() > 0) {
-                for (PageInterceptor interceptor : globalInterceptor) {
-                    if (interceptor.intercept(pageData, realData, routerData.getOtherData())) {
-                        return PageCode.INTERRUPTED;
-                    }
+
+        }
+        //先走全局拦截器
+        List<PageInterceptor> globalInterceptor = PageConfig.INSTANCE.getAddGlobalInterceptors();
+        if (globalInterceptor != null && globalInterceptor.size() > 0) {
+            for (PageInterceptor interceptor : globalInterceptor) {
+                if (interceptor.intercept(pageData, realData, routerData.getOtherData())) {
+                    return PageCode.INTERRUPTED;
                 }
             }
         }
@@ -87,16 +89,15 @@ public class PageLauncher implements Launcher {
         final BasePresenter presenter = pageCreator.createPresenter(pageData.getPresenterClass());
 
         final Object finalRealData = realData;
-        PageConfig.INSTANCE.getMAIN_HANDLER().post(new Runnable() {
+        PageThreadManager.runMainAsync(new Runnable() {
             @Override
             public void run() {
                 //保存当前页面
                 PageManagerImpl.INSTANCE.addPage(basePage, routerData.getPageResultCallBack());
                 //走设置page数据走onCreate方法
-                basePage.setPageData(pageData, finalRealData, context, presenter, routerData.getOtherData());
+                basePage.setPageData(pageData, finalRealData, routerData.getActivity(), presenter, routerData.getOtherData());
             }
         });
-
         return PageCode.SUCCESS;
     }
 }
