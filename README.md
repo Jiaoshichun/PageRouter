@@ -1,8 +1,8 @@
 # 单Activity 页面View路由(Page)与事件路由(Action)  
 
-## 支持功能   
+## 1 支持功能   
 
-### 页面View路由(Page)
+### 1.1 页面View路由(Page)
 
 1. 注解配置页面(下文统称Page)key和type类型，支持不同type对应相同key的多个类型页面。
 2. 注解配置Page的View需要挂载的父View的id和index。
@@ -18,7 +18,7 @@
 12. 当某个Page被打开时，再次调用，不会打开新的界面，只会调用onNewOpen接口。(后期可考虑增加启动模式)
 13. 支持通过key获取Page。
 
-### 事件路由  (Action)
+### 1.2 事件路由  (Action)
 
 1. 注解配置事件(下文统称Action)的key和type类型，支持不同type对应相同key的多个类型事件
 2. 创建Action时需要实现BaseAction接口，通过泛型声明需要的数据类型，当数据格式不正确时，路由失败
@@ -26,13 +26,13 @@
 4. 支持Action队列和优先级配置，相同队列的Action，必须等待上一个Action处理完毕后才会继续处理  
 5. 注解配置处理Action的线程(当前线程/工作线程/主线程/主线程异步)。
 
-## 集成方式  
+## 2 集成方式  
 ```groovy
    implementation project(path: ':PageApi')
    kapt project(':PageCompile')
 ```
 
-## 初始化
+## 3 初始化
 
 ```kotlin
 //PageCreatorImpl 为自动生成的类，需要添加Page注解后，buid生成
@@ -55,9 +55,9 @@ PageConfig.addGlobalInterceptor(PageInterceptor { pageData, data, otherData ->
         })
 ```
 
-## Page路由的使用
+## 4 Page路由的使用
 
-### 创建Page 
+### 4.1 创建Page 
 
 ```kotlin
 //要挂载的父View的id
@@ -128,7 +128,7 @@ class DemoPage : BasePage<TestBean, TestPresenter>(), DemoView {
 }
 ```
 
-### 创建TestPresenter和DemoView类
+### 4.3 创建TestPresenter和DemoView类
 
 ```kotlin
 class TestPresenter : BasePresenter<TestBean, DemoView>() {
@@ -143,9 +143,9 @@ interface DemoView : IView<TestBean> {
 }
 ```
 
-## Action路由的使用
+## 5 Action路由的使用
 
-### 创建Action路由
+### 5.1 创建Action路由
 
 ```java
 //Action处理队列，不配置，默认无队列。 队列id和优先级priority(默认100)
@@ -164,7 +164,7 @@ public class TestAction implements BaseAction<String> {
 }
 ```
 
-### Action路由调用
+### 5.2 Action路由调用
 
 ```kotlin
 val open = PageRouter.createAction("key", "事件咯").open()
