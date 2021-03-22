@@ -13,8 +13,8 @@ import com.yiqizuoye.library.page.api.PageInterceptor;
 import com.yiqizuoye.library.page.api.PageRuleData;
 import com.yiqizuoye.library.page.api.PageData;
 import com.yiqizuoye.library.page.api.PageParent;
-import com.yiqizuoye.library.page.demo.page.TestPage;
-import com.yiqizuoye.library.page.demo.page.TestPage2;
+import com.yiqizuoye.library.page.demo.page.DemoPage;
+import com.yiqizuoye.library.page.demo.page.DemoPage2;
 import com.yiqizuoye.library.page.demo.presenter.TestPresenter;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class TestCreator implements PageCreator {
         ArrayList<PageData> list = new ArrayList<>();
         PageRuleData pageRuleData = new PageRuleData();
         pageRuleData.key = "key";
-        pageRuleData.pageClass = TestPage.class.getName();
+        pageRuleData.pageClass = DemoPage.class.getName();
         pageRuleData.type = new int[]{1};
         pageRuleData.dataFormatClass = String.class.getName();
         pageRuleData.presenterClass = TestPresenter.class.getName();
@@ -42,7 +42,7 @@ public class TestCreator implements PageCreator {
 
         pageRuleData = new PageRuleData();
         pageRuleData.key = "key2";
-        pageRuleData.pageClass = TestPage2.class.getName();
+        pageRuleData.pageClass = DemoPage2.class.getName();
         pageRuleData.type = new int[]{1};
         pageRuleData.dataFormatClass = TestBean.class.getName();
         pageRuleData.presenterClass = TestPresenter.class.getName();
@@ -87,10 +87,10 @@ public class TestCreator implements PageCreator {
     @Nullable
     @Override
     public BasePage createPage(String clazzName) {
-        if (clazzName.equals(TestPage.class.getName())) {
-            return new TestPage();
-        } else if (clazzName.equals(TestPage2.class.getName())) {
-            return new TestPage2();
+        if (clazzName.equals(DemoPage.class.getName())) {
+            return new DemoPage();
+        } else if (clazzName.equals(DemoPage2.class.getName())) {
+            return new DemoPage2();
         }
         return null;
     }

@@ -1,7 +1,6 @@
 package com.yiqizuoye.library.page.api;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import com.yiqizuoye.library.page.annotation.PageDataTransform;
@@ -26,7 +25,7 @@ public class PageRouter {
      */
     public static PageRouter create(Activity context, String key, Object data) {
         PageLauncher launcher = new PageLauncher();
-        RouterData routerData = new RouterData(context, PageConfig.INSTANCE.getTypeFactory().getType(), key, data);
+        RouterData routerData = new RouterData(context, PageConfigImpl.INSTANCE.getTypeFactory().getType(), key, data);
         return new PageRouter(routerData, launcher);
     }
 
@@ -35,7 +34,7 @@ public class PageRouter {
      */
     public static PageRouter createAction(String key, Object data) {
         ActionLauncher launcher = new ActionLauncher();
-        RouterData routerData = new RouterData(null, PageConfig.INSTANCE.getTypeFactory().getType(), key, data);
+        RouterData routerData = new RouterData(null, PageConfigImpl.INSTANCE.getTypeFactory().getType(), key, data);
         return new PageRouter(routerData, launcher);
     }
 

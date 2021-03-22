@@ -8,6 +8,6 @@ import com.yiqizuoye.library.page.demo.other.TestBean
  * Date: 2021/3/16
  * Description:
  */
-interface TestView2 : IView<TestBean> {
-
+interface DemoView : IView<TestBean> {
+    fun loginSuccess()
 }

@@ -18,7 +18,7 @@ internal object PageManagerImpl {
      * 更加key获取Page
      */
     fun <T : BasePage<*, *>> getPage(key: String): T? {
-        val type = PageConfig.typeFactory.getType()
+        val type = PageConfigImpl.typeFactory.getType()
         val find = pageStack.find { page -> page.mPageData.key == key } ?: return null
         if (find.mPageData.types.find { it == type } != null) {
             return try {

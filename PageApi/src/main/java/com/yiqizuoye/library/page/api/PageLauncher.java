@@ -17,7 +17,7 @@ public class PageLauncher implements Launcher {
     @Override
     public int start(final RouterData routerData) {
         //根据key 获取以type为key的PageData map集合
-        Map<Integer, PageData> dataMap = PageConfig.INSTANCE.getPageRules().get(routerData.getKey());
+        Map<Integer, PageData> dataMap = PageConfigImpl.INSTANCE.getPageRules().get(routerData.getKey());
         if (dataMap == null) {
             return PageCode.ERROR_NO_FOUND_KEY;
         }
@@ -31,7 +31,7 @@ public class PageLauncher implements Launcher {
             return PageCode.QUEUE_WAITING;
         }
 
-        PageCreator pageCreator = PageConfig.INSTANCE.getPageCreator();
+        PageCreator pageCreator = PageConfigImpl.INSTANCE.getPageCreator();
         Object realData;
         if (pageData.getDataFormat().equals(Void.class.getName())) {//不需要参数 使用Void泛型
             realData = null;
@@ -55,7 +55,7 @@ public class PageLauncher implements Launcher {
 
         }
         //先走全局拦截器
-        List<PageInterceptor> globalInterceptor = PageConfig.INSTANCE.getAddGlobalInterceptors();
+        List<PageInterceptor> globalInterceptor = PageConfigImpl.INSTANCE.getAddGlobalInterceptors();
         if (globalInterceptor != null && globalInterceptor.size() > 0) {
             for (PageInterceptor interceptor : globalInterceptor) {
                 if (interceptor.intercept(pageData, realData, routerData.getOtherData())) {

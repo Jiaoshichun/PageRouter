@@ -11,7 +11,7 @@ import androidx.lifecycle.OnLifecycleEvent
  * Description:
  * 全局配置类
  */
-object PageConfig {
+internal object PageConfigImpl {
 
     //所有的页面数据
     private val allPageData = mutableListOf<PageData>()
@@ -53,6 +53,7 @@ object PageConfig {
         }
         activity.lifecycle.addObserver(lifecycleObserver)
     }
+
     //页面销毁时，清除缓存
     private val lifecycleObserver: LifecycleObserver = object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -73,35 +74,38 @@ object PageConfig {
     fun addGlobalInterceptor(pageInterceptor: PageInterceptor) {
         addGlobalInterceptors.add(pageInterceptor)
     }
-
-    /**
-     * 全局回调函数
-     */
-    var globalCallBack: GlobalCallBack = object : GlobalCallBack {
-        override fun onError(
-            code: Int,
-            msg: String,
-            pageData: PageData,
-            data: Any,
-            needDataClass: Class<Any>
-        ) {
-        }
-        override fun onSuccess(pageData: PageData, data: Any, needDataClass: Class<Any>) {
-        }
-
+    fun removeGlobalInterceptor(pageInterceptor: PageInterceptor) {
+        addGlobalInterceptors.remove(pageInterceptor)
     }
 
-    interface GlobalCallBack {
-        fun onError(
-            code: Int,
-            msg: String,
-            pageData: PageData,
-            data: Any,
-            needDataClass: Class<Any>
-        )
+//    /**
+//     * 全局回调函数
+//     */
+//    var globalCallBack: GlobalCallBack = object : GlobalCallBack {
+//        override fun onError(
+//            code: Int,
+//            msg: String,
+//            pageData: PageData,
+//            data: Any,
+//            needDataClass: Class<Any>
+//        ) {
+//        }
+//        override fun onSuccess(pageData: PageData, data: Any, needDataClass: Class<Any>) {
+//        }
+//
+//    }
 
-        fun onSuccess(pageData: PageData, data: Any, needDataClass: Class<Any>)
-    }
+//    interface GlobalCallBack {
+//        fun onError(
+//            code: Int,
+//            msg: String,
+//            pageData: PageData,
+//            data: Any,
+//            needDataClass: Class<Any>
+//        )
+//
+//        fun onSuccess(pageData: PageData, data: Any, needDataClass: Class<Any>)
+//    }
 
     /**
      * 类型工厂类  用于获取当前的类型
@@ -111,9 +115,8 @@ object PageConfig {
 
     }
 
-    interface TypeFactory {
-        fun getType(): Int
-    }
+}
 
-
+interface TypeFactory {
+    fun getType(): Int
 }

@@ -13,7 +13,7 @@ import com.yiqizuoye.library.page.api.PagePipeManager
 import com.yiqizuoye.library.page.demo.other.DataTransform
 import com.yiqizuoye.library.page.demo.other.TestBean
 import com.yiqizuoye.library.page.demo.other.TestInterceptor
-import com.yiqizuoye.library.page.demo.view.TestView2
+import com.yiqizuoye.library.page.demo.view.DemoView2
 import com.yiqizuoye.library.page.demo.presenter.TestPresenter2
 
 /**
@@ -28,8 +28,8 @@ import com.yiqizuoye.library.page.demo.presenter.TestPresenter2
     interceptors = [TestInterceptor::class],
     transforms = [DataTransform::class]
 )
-class TestPage2 : BasePage<TestBean, TestPresenter2>(),
-    TestView2 {
+class DemoPage2 : BasePage<TestBean, TestPresenter2>(),
+    DemoView2 {
     private val TAG = "TestPage2"
 
     override fun onCreate(data: TestBean?, otherData: Bundle?) {

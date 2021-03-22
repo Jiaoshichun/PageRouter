@@ -21,9 +21,13 @@ public @interface ActionThread {
          */
         workThread,
         /**
-         * 主进程
+         * 主线程
          */
         mainThread,
+        /**
+         * 主线程异步
+         */
+        mainThreadAsync,
         /**
          * 默认线程
          */

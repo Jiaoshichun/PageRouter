@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import com.yiqizuoye.library.page.R
-import com.yiqizuoye.library.page.annotation.*
+import com.yiqizuoye.library.page.annotation.PageParent
+import com.yiqizuoye.library.page.annotation.PagePipe
+import com.yiqizuoye.library.page.annotation.PageRule
 import com.yiqizuoye.library.page.api.BasePage
-import com.yiqizuoye.library.page.api.IPagePipe
 import com.yiqizuoye.library.page.api.PageRouter
 import com.yiqizuoye.library.page.demo.TestPipe
 import com.yiqizuoye.library.page.demo.other.DataTransform
-import com.yiqizuoye.library.page.demo.other.DataTransform2
 import com.yiqizuoye.library.page.demo.other.TestBean
 import com.yiqizuoye.library.page.demo.other.TestInterceptor
 import com.yiqizuoye.library.page.demo.presenter.TestPresenter
-import com.yiqizuoye.library.page.demo.view.TestView
+import com.yiqizuoye.library.page.demo.view.DemoView
 
 /**
  * Author: jiao
@@ -24,30 +24,26 @@ import com.yiqizuoye.library.page.demo.view.TestView
 @PageParent(android.R.id.content)
 @PageRule(
     "key",
-    type = [1],
+    type = [2],
     interceptors = [TestInterceptor::class],
-    transforms = [DataTransform::class, DataTransform2::class]
+    transforms = [DataTransform::class]
+
 )
-class TestPage : BasePage<TestBean, TestPresenter>(), TestView {
-    private val TAG = "TestPage"
+class DemoPageType2 : BasePage<TestBean, TestPresenter>(), DemoView {
+    private val TAG = "TestPageType2"
 
     override fun onCreate(data: TestBean?, otherData: Bundle?) {
         Log.d(TAG, "onCreate  data:$data  otherData:$otherData")
         setContentView(R.layout.page_test)
         val txt = findViewById<TextView>(R.id.txt)
+        txt.setText(TAG)
         txt.setOnClickListener {
             val open = PageRouter.create(mContext,"key2", "TEST2新来的").setResultCallBack { result, data ->
                 Log.d(TAG, "setResultCallBack  result:$result  data:$data")
             }.open()
             Log.d(TAG, "open Result:$open")
-//            关闭当前界面
-//            finish()
             mPresenter.toLogin()
-            val open1 = PageRouter.createAction("key", "事件咯").open()
-            Log.d(TAG, "openAction Result:$open1")
-
         }
-
     }
 
     override fun onTypeChanged(otherData: Bundle): Boolean {
@@ -88,10 +84,9 @@ class TestPage : BasePage<TestBean, TestPresenter>(), TestView {
     override fun getPipe(): TestPipe {
         return object : TestPipe {
             override fun getName(): Int {
-                return 1111111
+                return 22234234
             }
 
         }
     }
-
 }

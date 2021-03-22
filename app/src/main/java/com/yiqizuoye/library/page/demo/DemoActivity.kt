@@ -5,10 +5,7 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.yiqizuoye.library.page.R
-import com.yiqizuoye.library.page.api.PageConfig
-import com.yiqizuoye.library.page.api.PageCreatorImpl
-import com.yiqizuoye.library.page.api.PageInterceptor
-import com.yiqizuoye.library.page.api.PageRouter
+import com.yiqizuoye.library.page.api.*
 
 var type = 1
 
@@ -17,11 +14,11 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         PageConfig.init(this, PageCreatorImpl())
-        PageConfig.typeFactory = object : PageConfig.TypeFactory {
+        PageConfig.setTypeFactory( object : TypeFactory {
             override fun getType(): Int {
                 return type
             }
-        }
+        })
         PageConfig.addGlobalInterceptor(PageInterceptor { pageData, data, otherData ->
             Log.d(
                 TAG,

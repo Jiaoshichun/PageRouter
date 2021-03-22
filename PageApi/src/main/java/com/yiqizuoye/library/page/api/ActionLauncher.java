@@ -14,9 +14,9 @@ import java.util.Map;
  */
 public class ActionLauncher implements Launcher {
     @Override
-    public int start( final RouterData routerData) {
+    public int start(final RouterData routerData) {
         //根据key 获取以type为key的PageData map集合
-        Map<Integer, ActionData> dataMap = PageConfig.INSTANCE.getActionRules().get(routerData.getKey());
+        Map<Integer, ActionData> dataMap = PageConfigImpl.INSTANCE.getActionRules().get(routerData.getKey());
         if (dataMap == null) {
             return PageCode.ERROR_NO_FOUND_KEY;
         }
@@ -30,7 +30,7 @@ public class ActionLauncher implements Launcher {
             return PageCode.QUEUE_WAITING;
         }
 
-        PageCreator pageCreator = PageConfig.INSTANCE.getPageCreator();
+        PageCreator pageCreator = PageConfigImpl.INSTANCE.getPageCreator();
         Object realData;
         if (actionData.getDataFormat().equals(Void.class.getName())) {//不需要参数 使用Void泛型
             realData = null;
@@ -71,6 +71,8 @@ public class ActionLauncher implements Launcher {
         };
         if (actionData.getThread() == ActionThread.Thread.mainThread) {
             PageThreadManager.runMain(runnable);
+        } else if (actionData.getThread() == ActionThread.Thread.mainThreadAsync) {
+            PageThreadManager.runMainAsync(runnable);
         } else if (actionData.getThread() == ActionThread.Thread.workThread) {
             PageThreadManager.runWork(runnable);
         } else {
