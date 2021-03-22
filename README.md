@@ -128,7 +128,7 @@ class DemoPage : BasePage<TestBean, TestPresenter>(), DemoView {
 }
 ```
 
-### 4.3 创建TestPresenter和DemoView类
+### 4.2 创建TestPresenter和DemoView类
 
 ```kotlin
 class TestPresenter : BasePresenter<TestBean, DemoView>() {
