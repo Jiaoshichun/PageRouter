@@ -1,5 +1,6 @@
 package com.yiqizuoye.library.page.api
 
+import android.util.Log
 import com.yiqizuoye.library.page.annotation.ActionThread
 
 
@@ -139,9 +140,10 @@ class ActionData(ruleData: ActionRuleData, val thread: ActionThread.Thread) {
     init {
         transformBeans.forEach {
             if (it.toClassName != dataFormat) {
-                throw RuntimeException("$it  转换出来的格式不是page需要的格式 needFormat:$dataFormat  $it")
+                Log.e("PageRule","$it  转换出来的格式不是page需要的格式 needFormat:$dataFormat  $it")
+            }else{
+                transformsClass[it.fromClassName] = it.className
             }
-            transformsClass[it.fromClassName] = it.className
         }
     }
 

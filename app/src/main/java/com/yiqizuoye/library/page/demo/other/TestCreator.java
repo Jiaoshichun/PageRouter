@@ -35,7 +35,7 @@ public class TestCreator implements PageCreator {
         pageRuleData.dataFormatClass = String.class.getName();
         pageRuleData.presenterClass = TestPresenter.class.getName();
         pageRuleData.interceptors = new String[]{TestInterceptor.class.getName()};
-        PageData pageData = new PageData(pageRuleData, new PageParent(android.R.id.content, PageAnnotationConstant.DEFAULT_INDEX));
+        PageData pageData = new PageData(pageRuleData, new PageParent(android.R.id.content, -1));
         list.add(pageData);
 
 
@@ -46,7 +46,7 @@ public class TestCreator implements PageCreator {
         pageRuleData.dataFormatClass = TestBean.class.getName();
         pageRuleData.presenterClass = TestPresenter.class.getName();
         pageRuleData.interceptors = new String[]{TestInterceptor.class.getName()};
-        pageData = new PageData(pageRuleData, new PageParent(android.R.id.content, PageAnnotationConstant.DEFAULT_INDEX));
+        pageData = new PageData(pageRuleData, new PageParent(android.R.id.content, -1));
         list.add(pageData);
         return list;
     }

@@ -20,7 +20,7 @@ import com.yiqizuoye.library.page.demo.view.DemoView
  * Date: 2021/3/16
  * Description:
  */
-@PageParent(android.R.id.content)
+@PageParent(android.R.id.content,index = 10)
 @PageQueue(id = 11,priority = 101)
 @PageRule(
     "key",
