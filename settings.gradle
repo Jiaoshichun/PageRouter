@@ -2,4 +2,3 @@ include ':PageCompile'
 include ':PageApi'
 include ':PageAnnotation'
 include ':app'
-rootProject.name = "My Application"
