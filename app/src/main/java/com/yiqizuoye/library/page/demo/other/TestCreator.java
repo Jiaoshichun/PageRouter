@@ -2,7 +2,6 @@ package com.yiqizuoye.library.page.demo.other;
 
 import androidx.annotation.Nullable;
 
-import com.yiqizuoye.library.page.annotation.PageAnnotationConstant;
 import com.yiqizuoye.library.page.annotation.PageDataTransform;
 import com.yiqizuoye.library.page.api.ActionData;
 import com.yiqizuoye.library.page.api.BasePage;

@@ -12,9 +12,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.yiqizuoye.library.page.annotation.PageAnnotationConstant;
-import com.yiqizuoye.library.page.annotation.PagePipe;
-
 /**
  * Author: jiao
  * Date: 2021/3/16
@@ -125,20 +122,29 @@ public abstract class BasePage<DATA, P extends BasePresenter> implements IView<D
         if (parentView == null) {
             throw new IllegalArgumentException("PageParent配置的parentId有误，" + mContext.getResources().getResourceName(mPageData.getParentId()) + " 不在该" + mContext.getClass().getName() + "中");
         }
-        if (mPageData.getIndex() == PageAnnotationConstant.DEFAULT_INDEX) {
-            if (layoutParams == null) {
-                parentView.addView(view);
-            } else {
-                parentView.addView(view, layoutParams);
+        int setIndex = mPageData.getIndex();
+        view.setTag(R.id.page_router_index_key, setIndex);
+        int realIndex = parentView.getChildCount();
+        //默认是-1，如果不是-1,再去计算位置
+        if(setIndex>-1){
+            for (int i = parentView.getChildCount() - 1; i > -1; i--) {
+                View child = parentView.getChildAt(i);
+                Object tag = child.getTag(R.id.page_router_index_key);
+                if (tag instanceof Integer) {
+                    Integer integer = (Integer) tag;
+                    if(setIndex>=integer){
+                        break;
+                    }
+                }
             }
-        } else {
-            if (layoutParams == null) {
-                parentView.addView(view, mPageData.getIndex());
-            } else {
-                parentView.addView(view, mPageData.getIndex(), layoutParams);
-            }
-
         }
+
+        if (layoutParams == null) {
+            parentView.addView(view, realIndex);
+        } else {
+            parentView.addView(view, realIndex, layoutParams);
+        }
+
         mView = view;
     }
 
