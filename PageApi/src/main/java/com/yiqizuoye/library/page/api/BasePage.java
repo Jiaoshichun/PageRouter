@@ -125,22 +125,21 @@ public abstract class BasePage<DATA, P extends BasePresenter> implements IView<D
         int setIndex = mPageData.getIndex();
         view.setTag(R.id.page_router_index_key, setIndex);
         int realIndex = parentView.getChildCount();
-        //默认是-1，如果不是-1,再去计算位置
-        if (setIndex > -1) {
-            for (int i = parentView.getChildCount() - 1; i > -1; i--) {
-                View child = parentView.getChildAt(i);
-                Object tag = child.getTag(R.id.page_router_index_key);
-                if (tag instanceof Integer) {
-                    int integer = (Integer) tag;
-                    if (integer == -1) {
-                        integer = Integer.MAX_VALUE ;
-                    }
-                    if (setIndex >= integer) {
-                        break;
-                    }
+
+        for (int i = parentView.getChildCount() - 1; i > -1; i--) {
+            View child = parentView.getChildAt(i);
+            Object tag = child.getTag(R.id.page_router_index_key);
+            if (tag instanceof Integer) {
+                int integer = (Integer) tag;
+                if (integer == -1) {
+                    integer = Integer.MAX_VALUE;
+                }
+                if (setIndex >= integer) {
+                    break;
                 }
             }
         }
+
 
         if (layoutParams == null) {
             parentView.addView(view, realIndex);
