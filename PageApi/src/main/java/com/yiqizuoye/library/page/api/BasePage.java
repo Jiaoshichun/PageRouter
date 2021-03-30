@@ -129,17 +129,17 @@ public abstract class BasePage<DATA, P extends BasePresenter> implements IView<D
         for (int i = parentView.getChildCount() - 1; i > -1; i--) {
             View child = parentView.getChildAt(i);
             Object tag = child.getTag(R.id.page_router_index_key);
-            if (tag instanceof Integer) {
-                int integer = (Integer) tag;
-                if (integer == -1) {
-                    integer = Integer.MAX_VALUE;
-                }
-                if (setIndex >= integer) {
-                    break;
-                }
+            int saveIndex;
+            if (!(tag instanceof Integer)) {
+                saveIndex = 1000;
+            } else {
+                saveIndex = (Integer) tag;
+            }
+            if (setIndex >= saveIndex) {
+                realIndex = i;
+                break;
             }
         }
-
 
         if (layoutParams == null) {
             parentView.addView(view, realIndex);
